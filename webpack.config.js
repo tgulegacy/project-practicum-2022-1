@@ -1,11 +1,12 @@
 const path = require("path");
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 const { NODE_ENV, HOST, PORT } = process.env;
 const isDev = NODE_ENV === 'development';
 const mode = isDev ? 'development' : 'production';
 const host = HOST || 'localhost';
-const port = PORT || 8000;
+const port = PORT || 3000;
 
 module.exports = {
     mode,
@@ -19,13 +20,13 @@ module.exports = {
     },
     devServer: {
         historyApiFallback: true,
-        open: true,
         compress: true,
         host,
         port,
         hot: true,
         devMiddleware: {
             writeToDisk: true,
+            stats: 'minimal',
         }
     },
     module: {
@@ -67,7 +68,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src', 'index.html'),
             filename: "index.html"
-        })
+        }),
+        new CleanWebpackPlugin(),
     ],
     resolve: {
         alias: {
