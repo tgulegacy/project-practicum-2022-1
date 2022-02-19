@@ -1,0 +1,55 @@
+.logo {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+
+	&__image {
+		height: 21px;
+		width: 21px;
+
+		img {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	&__text {
+		text-transform: uppercase;
+		font-weight: 600;
+		font-size: 19.7353px;
+		line-height: 24px;
+		letter-spacing: 0.1em;
+	}
+}
+
+@media screen and (min-width: 1024px) {
+	.logo {
+		gap: 20px;
+
+		&__image {
+			height: 30px;
+			width: 30px;
+		}
+
+		&__text {
+			font-size: 32.8382px;
+			line-height: 40px;
+		}
+	}
+}
+
+@media screen and (min-width: 1920px) {
+	.logo {
+		gap: 24px;
+
+		&__image {
+			height: 36px;
+			width: 36px;
+		}
+
+		&__text {
+			font-size: 39.2292px;
+			line-height: 48px;
+		}
+	}
+}

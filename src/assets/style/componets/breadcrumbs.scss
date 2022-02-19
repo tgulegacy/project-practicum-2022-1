@@ -1,0 +1,35 @@
+.breadcrumbs {
+	display: flex;
+	flex-wrap: nowrap;
+	margin-top: 36px;
+	gap: 4px;
+
+	&__link {
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 21px;
+		color: #202020;
+		white-space: nowrap;
+
+		&:not(:first-child):before {
+			content: "/";
+		}
+
+		&:last-child {
+			color: #BCBCBC;
+		}
+	}
+}
+
+@media screen and (min-width: 1024px) {
+	.breadcrumbs {
+		margin-top: 48px;
+	}
+}
+
+@media screen and (min-width: 1920px) {
+	.breadcrumbs {
+		margin-top: 24px;
+	}
+}

@@ -1,8 +1,135 @@
 .header {
-	background: #202020;
+	&__top {
+		background: #202020;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		height: 40px;
+		gap: 20px;
+		padding: 0 12px;
+	}
+
+	&__left {
+		display: flex;
+		gap: 56px;
+	}
+
+	&__middle {
+		display: none;
+		gap: 32px;
+	}
+
+	&__bottom {
+		display: flex;
+		margin-top: 8px;
+		justify-content: space-between;
+	}
+
+	&__search-mobile {
+		width: 16px;
+		height: 16px;
+	}
+
+	&__burger {
+		width: 24px;
+		height: 8px;
+		display: flex;
+	}
+
+	&__links {
+		display: flex;
+		gap: 12px;
+	}
+
+	&__link {
+		width: 36px;
+		height: 36px;
+		background-color: #202020;
+		border-radius: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		img {
+			width: 16px;
+			height: 16px;
+		}
+	}
+
+	&__tel {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	&__tel-number {
+		font-style: normal;
+		font-weight: bold;
+		font-size: 20px;
+		line-height: 20px;
+		color: #202020;
+		text-decoration: none;
+	}
+
+	&__tel-info {
+		font-style: normal;
+		font-weight: normal;
+		font-size: 12px;
+		line-height: 18px;
+		color: #636363;
+	}
 
 	&__search {
-		width: 45px;
-		height: 45px;
+		width: 757px;
+		height: 48px;
+		position: relative;
+
+		input {
+			width: calc(100% - 64px);
+			//height: 100%;
+			border: none;
+			outline: 1px solid #202020;
+			padding: 16px 48px 16px 16px;
+		}
+	}
+
+	&__search-icon {
+		position: absolute;
+		right: 16px;
+		top: 16px;
+		width: 16px;
+		height: 16px;
+	}
+}
+
+@media screen and (min-width: 1024px) {
+	.header {
+		&__top {
+			padding: 0 16px;
+		}
+
+		&__bottom {
+			margin-top: 32px;
+		}
+
+		&__links {
+			gap: 24px;
+		}
+	}
+}
+
+@media screen and (min-width: 1920px) {
+	.header {
+		&__burger {
+			display: none;
+		}
+
+		&__search-mobile {
+			display: none;
+		}
+
+		&__middle {
+			display: flex;
+		}
 	}
 }
