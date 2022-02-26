@@ -1,0 +1,30 @@
+.checkbox {
+  --color: #636363;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.checkbox__native {
+  @include visually-hidden;
+  
+  &:checked + .checkbox__box:before {
+    content: '✓';
+    width: fit-content;
+    display: block;
+    margin: auto;
+  }
+}
+
+.checkbox__box {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--color);
+  border-radius: 2px;
+}
+
+.checkbox__text {
+  color: var(--color);
+}

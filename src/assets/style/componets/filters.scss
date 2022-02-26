@@ -1,0 +1,33 @@
+.filters {
+  max-width: 320px;
+  width: 100%;
+}
+
+.filters__controls {
+  margin-bottom: 15px;
+}
+
+.filters__btn {
+  margin-top: 24px;
+  color: #202020;
+  text-transform: uppercase;
+  border: 0;
+  padding: 0;
+  outline: 0;
+  background-color: transparent;
+}
+
+.filters__checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filters__controls {
+  display: flex;
+  gap: 14px;
+  
+  & .filters__control-item {
+    cursor: pointer;
+  }
+}
