@@ -26,7 +26,6 @@ module.exports = {
         hot: true,
         devMiddleware: {
             writeToDisk: true,
-            stats: 'minimal',
         }
     },
     module: {
