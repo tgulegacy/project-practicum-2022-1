@@ -7,9 +7,7 @@
 	&__link {
 		font-style: normal;
 		font-weight: normal;
-		font-size: 14px;
-		line-height: 21px;
-		color: #202020;
+		color: var(--primary-color);
 		white-space: nowrap;
 
 		&:not(:first-child):before {

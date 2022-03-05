@@ -1,3 +1,4 @@
+@import "variables/index";
 @import "reset";
 @import "mixins/index";
 @import "componets/index";
@@ -10,4 +11,15 @@ html {
 
 body {
   margin: 0;
+  overflow-x: hidden;
+}
+
+:root {
+  --primary-color: #202020
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
