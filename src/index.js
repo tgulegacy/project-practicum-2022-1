@@ -1,7 +1,8 @@
 import './assets/style/index.scss'
 import Select from './components/select'
 import Accordion from "@/components/accordion";
-import Nav from "@/components/nav";
+import MobileNav from "@/components/mobile-nav";
+import Nav from '@/components/nav';
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
@@ -12,6 +13,7 @@ if (document.readyState === 'loading') {
 }
 
 function init() {
+    new Nav('nav');
     const sortEl = document.getElementById('sort')
     const sortCallback = (item) => {
         console.log(item)
@@ -21,7 +23,7 @@ function init() {
         onChange: sortCallback,
         cookieName: 'catalog-sort'
     })
-    
+
     function filter() {
         const accordions = []
 
@@ -29,7 +31,7 @@ function init() {
         accordionsEl.forEach(accordion => {
             accordions.push(new Accordion(accordion))
         })
-        
+
         const hideFiltersBtn = document.querySelector('[data-filters-open]')
         const openFiltersBtn = document.querySelector('[data-filters-hide]')
 
@@ -47,26 +49,26 @@ function init() {
     }
 
     filter()
-    
+
     if (window.innerWidth <= 1024) {
-        const nav = new Nav(document.getElementById('nav'))
-        
+        const mobileNav = new MobileNav(document.getElementById('nav'))
+
         const burger = document.querySelector('[data-toggle-nav]')
-        burger.addEventListener('click', () => nav.toggleNav())
-        
+        burger.addEventListener('click', () => mobileNav.toggleNav())
+
         const closeIcon = document.querySelector('[data-hide-nav]')
-        closeIcon.addEventListener('click', () => nav.hideNav())
-        
+        closeIcon.addEventListener('click', () => mobileNav.hideNav())
+
         const items = document.querySelectorAll('[data-nav-item]')
         items.forEach(item => {
-            item.addEventListener('click', () => nav.openMenuItem(item))
+            item.addEventListener('click', () => mobileNav.openMenuItem(item))
         })
-        
+
         const hideNavItems = document.querySelectorAll('[data-nav-item-hide]')
         hideNavItems.forEach(hideNavItem => {
-            hideNavItem.addEventListener('click', () => nav.hideMenuItem(hideNavItem))
+            hideNavItem.addEventListener('click', () => mobileNav.hideMenuItem(hideNavItem))
         })
-        
+
         const subcategories = document.querySelectorAll('[data-nav-subitems]')
         subcategories.forEach(subcategory => {
             subcategory.addEventListener('click', event => {
