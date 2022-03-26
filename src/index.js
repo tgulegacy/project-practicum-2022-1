@@ -6,6 +6,8 @@ import Nav from '@/components/nav';
 import getCatalogItems from "@/api/getCatalogItems";
 import Catalog from "@/components/catalog";
 import getFilterItems from "@/api/getFilterItems";
+import { catalogRenderData } from "@/server-front/catalog";
+import Pagination from "@/components/pagination";
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
@@ -86,8 +88,19 @@ async function init() {
 
     const catalog = new Catalog(document.getElementById('catalog-items'))
 
+    const pagination = new Pagination(document.getElementById('pagination'))
+
     const catalogItems = await getCatalogItems()
 
-    catalog.renderItems(catalogItems)
+    const catalogRender = catalogRenderData()
 
+    const catalogRenderObj = catalogRender(catalogItems.map((x) => x), {})
+
+    const pagesCount = catalogRenderObj.pageCount
+
+    const catalogPageItems = catalogRenderObj.pagination
+
+    pagination.renderPaginationItems(pagesCount, 1)
+
+    catalog.renderItems(catalogPageItems)
 }

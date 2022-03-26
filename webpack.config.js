@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 const { NODE_ENV, HOST, PORT } = process.env;
 const isDev = NODE_ENV === 'development';
@@ -57,13 +58,19 @@ module.exports = {
                 loader: "html-loader",
             },
         ],
-    },  
+    },
     plugins: [
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src', 'index.html'),
             filename: "index.html"
         }),
         new CleanWebpackPlugin(),
+        new CopyPlugin({
+            patterns: [
+                { from: "server", to: "" },
+                // { from: "other", to: "public" },
+            ],
+        }),
     ],
     resolve: {
         alias: {

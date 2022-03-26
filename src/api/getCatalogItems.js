@@ -1,7 +1,10 @@
-import catalogItemsData from "@/config/catalog-items-data";
-
 export default async function getCatalogItems() {
-    return await new Promise(resolve => {
-        resolve(catalogItemsData)
-    })
+    try {
+        const response = await fetch('./catalog.json');
+        const json = await response.json();
+        console.log( json );
+        return json;
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
 }
