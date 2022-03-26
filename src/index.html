@@ -71,6 +71,10 @@
     <symbol id="rub" viewBox="0 0 17 17" xmlns="http://www.w3.org/2000/svg">
         <path d="M1.15922 14.2952H3.86381V16.6137C3.86381 16.7265 3.89991 16.8188 3.97252 16.891C4.04494 16.9637 4.13751 17 4.25029 17H6.26652C6.37116 17 6.4617 16.9637 6.53818 16.891C6.61466 16.8188 6.65279 16.7265 6.65279 16.6137V14.2952H12.7501C12.8626 14.2952 12.9552 14.2593 13.0278 14.1867C13.1004 14.1141 13.1365 14.0217 13.1365 13.9089V12.3634C13.1365 12.2512 13.1004 12.1582 13.0278 12.0861C12.9554 12.0134 12.8626 11.9771 12.7501 11.9771H6.65259V10.5523H10.7577C12.3675 10.5523 13.6813 10.0618 14.6998 9.07937C15.7179 8.09798 16.2272 6.83027 16.2272 5.27615C16.2272 3.72307 15.7179 2.45532 14.6998 1.47293C13.6815 0.491511 12.3674 0 10.7577 0H4.25009C4.13728 0 4.0449 0.036291 3.97232 0.108506C3.89991 0.181122 3.86361 0.274098 3.86361 0.38627V7.98091H1.15922C1.04645 7.98091 0.954039 8.01907 0.881457 8.09552C0.809075 8.172 0.772751 8.26254 0.772751 8.36715V10.166C0.772751 10.2788 0.808842 10.3712 0.881457 10.4438C0.954072 10.5164 1.04625 10.5523 1.15922 10.5523H3.86381V11.9771H1.15922C1.04645 11.9771 0.954039 12.0134 0.881457 12.086C0.809075 12.1582 0.772751 12.251 0.772751 12.3634V13.9089C0.772751 14.0217 0.808842 14.1141 0.881457 14.1867C0.954039 14.2593 1.04642 14.2952 1.15922 14.2952ZM6.65259 2.57199H10.5162C11.3693 2.57199 12.0574 2.82143 12.5808 3.32047C13.1039 3.81955 13.3656 4.47175 13.3656 5.27635C13.3656 6.08135 13.1039 6.73376 12.5808 7.23223C12.0574 7.73171 11.3693 7.98115 10.5162 7.98115H6.65259V2.57199Z"/>
     </symbol>
+
+    <symbol id="arrow-pagination" width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.00057 16L10 14.0056L3.97907 8L10 1.99436L8.00057 2.62194e-07L1.04611e-06 7.97743L0.022626 8L1.05203e-06 8.02257L8.00057 16Z" fill="white"/>
+    </symbol>
 </svg>
 
 <header class="header">
@@ -261,7 +265,27 @@
                 </div>
 
                 <div class="catalog__pagination">
-                    pagination
+                    <div class="catalog__pagination-pages-wrapper">
+                        <div class="catalog__pagination-pages" id="pagination">
+                            <button class="catalog__pagination-page catalog__pagination-page_select">1</button>
+                            <button class="catalog__pagination-page">2</button>
+                            <button class="catalog__pagination-page">3</button>
+                            <button class="catalog__pagination-page">...</button>
+                            <button class="catalog__pagination-page">10</button>
+                        </div>
+                        <div class="catalog__pagination-by-one">
+                            <div class="catalog__pagination-arrow catalog__pagination-arrow_disable">
+                                <svg class="" width="10" height="16">
+                                    <use href="#arrow-pagination"></use>
+                                </svg>
+                            </div>
+                            <div class="catalog__pagination-arrow">
+                                <svg class="" width="10" height="16">
+                                    <use href="#arrow-pagination"></use>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <footer class="catalog__footer">
