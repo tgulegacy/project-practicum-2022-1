@@ -1,52 +1,76 @@
-import { catalogRenderData } from "@/server-front/catalog";
-import Catalog from "@/components/catalog";
-import getCatalogItems from "@/api/getCatalogItems";
-
 export default class Pagination {
-	constructor(el) {
+	constructor(el, onChange) {
 		this.el = el;
+		this.onChange = onChange;
 
-		this.el.addEventListener( 'click', this.handlerListener );
+		this.initListeners()
 	}
 
-	async handlerListener(event) {
-		if ( event.target.classList.contains('catalog__pagination-page') ) {
-			const catalog = new Catalog(document.getElementById('catalog-items'));
-			const pagination = new Pagination(document.getElementById('pagination'));
-			const catalogItems = await getCatalogItems();
-			const catalogRender = catalogRenderData();
-			const catalogRenderObj = catalogRender(catalogItems.map((x) => x), {
-				page: event.target.dataset.page,
-			});
-			const pagesCount = catalogRenderObj.pageCount
+	initListeners() {
+		this.el.addEventListener( 'click', (event) => {
+			const target = event.target
 
-			const catalogPageItems = catalogRenderObj.pagination
+			let page
 
-			pagination.renderPaginationItems(pagesCount, event.target.dataset.page)
+			if (target.dataset.page) {
+				page = +target.dataset.page
+			} else if (target.closest('[data-page]')) {
+				page = +target.closest('[data-page]').dataset.page
+			} else {
+				return
+			}
 
-			catalog.renderItems(catalogPageItems)
+			this.onPageChange(page)
+		} );
+	}
+
+	onPageChange(page) {
+		if (!page) {
+			return
 		}
+
+		this.onChange(page)
 	}
 
-	renderPaginationItems(pageCount, currenPage) {
-		let paginationList = '';
+	renderPaginationItems(currenPage, pageCount) {
+		let html = '<div class="catalog__pagination-pages">';
 		for ( let i = 1; i <= pageCount; i++ ) {
-			paginationList += this.renderPaginationItem(i, +currenPage);
+			html += this.renderPaginationItem(i, +currenPage);
 		}
+		html += '</div>'
 
-		this.el.innerHTML = paginationList;
+		html += this.renderButtons(currenPage, pageCount)
+
+		this.el.innerHTML = html;
 	}
 
 	renderPaginationItem(page, currenPage) {
-		// if ( arg ) {
-		//     return `<button class="catalog__pagination-page">...</button>`
-		// }
 		if ( page === currenPage ) {
-			return `<button class="catalog__pagination-page catalog__pagination-page_select"
-				data-page="${page}">${page}</button>`;
+			return `<button class="catalog__pagination-page catalog__pagination-page_select" data-page="${page}">
+						${page}
+					</button>`;
 		} else {
-			return `<button class="catalog__pagination-page"
-				data-page="${page}">${page}</button>`;
+			return `<button class="catalog__pagination-page" data-page="${page}">
+						${page}
+					</button>`;
 		}
+	}
+
+	renderButtons(currenPage, pageCount) {
+		return `
+			<div class="catalog__pagination-by-one">
+        	    <button class="catalog__pagination-arrow" data-page="${currenPage - 1}" ${currenPage === 1 ? 'disabled' : ''}>
+        	        <svg class="" width="10" height="16">
+        	            <use href="#arrow-pagination"></use>
+        	        </svg>
+        	    </button>
+	
+        	    <button class="catalog__pagination-arrow" data-page="${currenPage + 1}" ${currenPage === pageCount ? 'disabled' : ''}>
+        	        <svg class="" width="10" height="16">
+        	            <use href="#arrow-pagination"></use>
+        	        </svg>
+        	    </button>
+        	</div>
+		`
 	}
 }

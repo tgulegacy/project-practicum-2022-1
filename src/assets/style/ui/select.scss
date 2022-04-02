@@ -1,12 +1,12 @@
 .select {
   min-width: 250px;
   position: relative;
-  
+
   &_open {
     & .select__inner {
       display: block;
     }
-    
+
     & .select__icon {
       transform: rotate(0deg);
     }
@@ -34,6 +34,7 @@
   background: white;
   box-shadow: 0 30px 30px rgba(0, 0, 0, 0.08);
   border-radius: 2px;
+  z-index: 9;
 }
 
 .select__icon {
@@ -44,7 +45,7 @@
   padding: 12px;
   color: #636363;
   cursor: pointer;
-  
+
   &:hover {
     background: #E5E5E5;
     color: var(--primary-color);
