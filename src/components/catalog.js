@@ -23,56 +23,80 @@ export default class Catalog {
     }
 
     async init() {
-        this.meta.page = this.getCurrentPage()
-        this.meta.filters = this.getCurrentFilter()
-        this.meta.sort = Cookie.getCookie('catalog-sort') || 'alp'
+        this.setLoading(true)
 
-        const [items, pageCount] = await getCatalogItems(this.meta)
-        this.renderItems(items)
-
-        const sortEl = document.getElementById('sort')
-        this.elements.sort = new Select({
-            el: sortEl,
-            onChange: (item) => {
-                // TODO - доделать Select
-            },
-            cookieName: 'catalog-sort'
-        })
-
-        // TODO - доделать Limit
-
-        this.elements.filter = await new Filter(this.filterEl, async (data) => {
-            this.meta.filters = data
-            await this.onMetaChange()
-        },this.meta.filters)
-        await this.elements.filter.init()
-
-        this.elements.pagination = new Pagination(this.paginationEl, async (page) => {
-            this.meta.page = +page
-            await this.onMetaChange()
-        })
-        this.elements.pagination.renderPaginationItems(this.meta.page, pageCount)
-
-        window.onpopstate = (async () => {
+        try {
             this.meta.page = this.getCurrentPage()
             this.meta.filters = this.getCurrentFilter()
+            this.meta.sort = Cookie.getCookie('catalog-sort') || 'alp'
 
-            this.elements.filter.changeData(this.meta.filters)
+            const [items, pageCount] = await getCatalogItems(this.meta)
+            this.renderItems(items)
+
+            const sortEl = document.getElementById('sort')
+            this.elements.sort = new Select({
+                el: sortEl,
+                onChange: (item) => {
+                    // TODO - доделать Select
+                },
+                cookieName: 'catalog-sort'
+            })
+
+            // TODO - доделать Limit
+
+            this.elements.filter = await new Filter(this.filterEl, async (data) => {
+                this.meta.filters = data
+                await this.onMetaChange()
+            },this.meta.filters)
+            await this.elements.filter.init()
+
+            this.elements.pagination = new Pagination(this.paginationEl, async (page) => {
+                this.meta.page = +page
+                await this.onMetaChange()
+            })
             this.elements.pagination.renderPaginationItems(this.meta.page, pageCount)
 
-            await this.onMetaChange(false)
-        })
+            window.onpopstate = (async () => {
+                this.meta.page = this.getCurrentPage()
+                this.meta.filters = this.getCurrentFilter()
+
+                this.elements.filter.changeData(this.meta.filters)
+                this.elements.pagination.renderPaginationItems(this.meta.page, pageCount)
+
+                await this.onMetaChange(false)
+            })
+        } catch (e) {
+            console.log(e)
+        } finally {
+            this.setLoading(false)
+        }
     }
 
     async onMetaChange(isPushState = true) {
-        const [items, pageCount] = await getCatalogItems(this.meta)
+        this.setLoading(true)
 
-        this.elements.pagination.renderPaginationItems(this.meta.page, pageCount)
-        this.renderItems(items)
+        try {
+            const [items, pageCount] = await getCatalogItems(this.meta)
 
-        if (isPushState) {
-            const encodeFilterData = this.encodeURL([...this.meta.filters, {code: 'page', items: [this.meta.page]}])
-            history.pushState({}, '', window.location.origin + encodeFilterData)
+            this.elements.pagination.renderPaginationItems(this.meta.page, pageCount)
+            this.renderItems(items)
+
+            if (isPushState) {
+                const encodeFilterData = this.encodeURL([...this.meta.filters, {code: 'page', items: [this.meta.page]}])
+                history.pushState({}, '', window.location.origin + encodeFilterData)
+            }
+        } catch (e) {
+            console.log(e)
+        } finally {
+            this.setLoading(false)
+        }
+    }
+
+    setLoading(value) {
+        if (value) {
+            this.el.classList.add('catalog__items_loading')
+        } else {
+            this.el.classList.remove('catalog__items_loading')
         }
     }
 

@@ -2,7 +2,12 @@ export default async function getCatalogItems(meta) {
     try {
         // const response = await fetch('./catalog.json');
         // const json = await response.json();
-        return await processData(meta);
+        const data = await Promise.all([
+            new Promise(resolve => setTimeout(() => resolve(''), 400)),
+            await processData(meta)
+        ])
+
+        return data[1]
     } catch (error) {
         console.error('Ошибка:', error);
     }
