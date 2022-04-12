@@ -1,13 +1,22 @@
 export default async function getCatalogItems(meta) {
     try {
-        // const response = await fetch('./catalog.json');
-        // const json = await response.json();
-        const data = await Promise.all([
-            new Promise(resolve => setTimeout(() => resolve(''), 500)),
-            processData(meta)
-        ])
+        console.log(meta)
+        const response = await fetch('http://localhost:5000/api/catalog/', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(meta)
+        });
+        const json = await response.json();
+        
+        return [json.data.items, json.data.pageCount]
+        // const data = await Promise.all([
+        //     new Promise(resolve => setTimeout(() => resolve(''), 500)),
+        //     processData(meta)
+        // ])
 
-        return data[1]
+        // return data[1]
     } catch (error) {
         console.error('Ошибка:', error);
     }

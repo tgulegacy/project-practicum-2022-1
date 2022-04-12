@@ -1,10 +1,5 @@
-import filterItemsData from "@/config/filter-items-data";
-
 export default async function getFilterItems() {
-    // const response = await fetch('/api/getFilterItems')
-    // const data = await response.json()
-    // return data
-    return await new Promise(resolve => {
-        resolve(filterItemsData)
-    })
+    const response = await fetch('http://localhost:5000/api/catalog/filters')
+    const data = await response.json()
+    return data.data.items
 }
