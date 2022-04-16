@@ -32,6 +32,7 @@ export default class Catalog {
             this.meta.sort = Cookie.getCookie('catalog-sort') || 'alp'
 
             this.elements.filter = await new Filter(this.filterEl, async (data) => {
+                this.meta.page = 1
                 this.meta.filters = data
                 await this.onMetaChange()
             }, this.meta.filters)
