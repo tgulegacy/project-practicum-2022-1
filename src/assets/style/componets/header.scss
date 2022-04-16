@@ -94,24 +94,35 @@
 	}
 
 	&__search {
+		display: flex;
+		align-items: center;
 		max-width: 757px;
 		width: 100%;
 		height: 48px;
 		position: relative;
 
 		input {
-			width: calc(100% - 64px);
-			//height: 100%;
+			width: 100%;
 			border: none;
 			outline: 1px solid var(--primary-color);
 			padding: 16px 48px 16px 16px;
 		}
 	}
 
-	&__search-icon {
+	&__search-label {
+		flex-grow: 1;
+	}
+
+	&__search-btn {
+		background-color: transparent;
+		border: 0;
+		padding: 0;
 		position: absolute;
 		right: 16px;
-		top: 16px;
+		cursor: pointer;
+	}
+
+	&__search-icon {
 		width: 16px;
 		height: 16px;
 	}
