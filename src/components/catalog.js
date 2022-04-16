@@ -12,10 +12,11 @@ export default class Catalog {
         this.elements = {
             filter: null,
             pagination: null,
-            sort: null
+            sort: null,
+            limit:12
         }
         this.meta = {
-            page: null,
+            page: 1,
             filters: [],
             sort: null,
             limit: 12
@@ -34,14 +35,36 @@ export default class Catalog {
             this.renderItems(items)
 
             const sortEl = document.getElementById('sort')
-            this.elements.sort = new Select({
-                el: sortEl,
-                onChange: (item) => {
-                    // TODO - доделать Select
+            
+            this.elements.sort = new Select({el: sortEl, onChange: async (item) => {
+                    console.log(item.value)
+                    this.meta.sort=item.value
+                    await this.onMetaChange()
                 },
                 cookieName: 'catalog-sort'
+                
             })
+            
+            
+            
+         //   this.elements.limit = new Select({el: sortEl, onChange: async
+            //   (item) => {
+             //       console.log(item.value)
+             //       this.meta.sort=item.value
+            //        await this.onMetaChange()
+            //    },
+             //   cookieName: 'catalog-limit'
 
+          //  })
+
+          //  const limitEl = document.getElementById('sort')
+          //  this.elements.sort = new Select({
+           //     el: sortEl,
+            //    onChange: (item) => {
+             //      // TODO - доделать Select
+             //   },
+            //    cookieName: 'catalog-sort'
+        //    })
             // TODO - доделать Limit
 
             this.elements.filter = await new Filter(this.filterEl, async (data) => {
