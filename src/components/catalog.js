@@ -26,6 +26,7 @@ export default class Catalog {
 
     async init() {
         this.setLoading(true)
+        
 
         try {
             this.meta.page = this.getCurrentPage()
@@ -44,15 +45,24 @@ export default class Catalog {
             this.initBasketToggleListeners()
 
             const sortEl = document.getElementById('sort')
-            this.elements.sort = new Select({
-                el: sortEl,
-                onChange: (item) => {
-                    // TODO - доделать Select
+            this.elements.sort = new Select({el: sortEl, onChange: async (item) => {
+                    console.log(item.value)
+                    this.meta.sort=item.value
+                    await this.onMetaChange()
                 },
                 cookieName: 'catalog-sort'
-            })
 
-            // TODO - доделать Limit
+            })
+            
+            const limitEl = document.getElementById('limit')
+            this.elements.sort = new Select({el: limitEl, onChange: async (item) => {
+                    console.log(item.value)
+                    this.meta.limit=item.value
+                    await this.onMetaChange()
+                },
+                cookieName: 'catalog-limit'
+
+            })
 
             this.elements.pagination = new Pagination(this.paginationEl, async (page) => {
                 this.meta.page = +page
@@ -74,6 +84,7 @@ export default class Catalog {
         } finally {
             this.setLoading(false)
         }
+        this.countBasketToggleListeners()
     }
 
     async onMetaChange(isPushState = true) {
@@ -181,8 +192,18 @@ export default class Catalog {
             const result = await addBasketItem(id, inBasket ? 0 : 1)
             
             if (result.ok) {
+                console.log(result)
+                let element1 = document.querySelector('#countBasket');
+
+                element1.innerHTML = result.data.items.length
+                
                 element.classList.toggle('product-card__basket_active')
+                
             }
+            
+            
+            
         })
     }
+
 }

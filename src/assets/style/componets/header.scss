@@ -62,11 +62,35 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		//z-index: 0;
+		//position: absolute;
 
 		img {
 			width: 16px;
 			height: 16px;
 		}
+	}
+	&__linka {
+		width: 15px;
+		height: 16px;
+		background-color: purple;
+		display: flex;
+		
+		color: white;
+		z-index: 1;
+		position: relative;
+		padding-left:10px ;
+		justify-content: flex-end;
+
+		img {
+			width: 16px;
+			height: 16px;
+		}
+	}
+	&__linkas {
+		display: flex;
+
+		
 	}
 
 	&__tel {
