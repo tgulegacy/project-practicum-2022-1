@@ -4,8 +4,6 @@ export default class MobileNav {
     constructor(el) {
         this.el = el;
         this.isOpen = false;
-        console.log(navData);
-        console.log(this.el);
     }
 
     toggleNav() {
