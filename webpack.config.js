@@ -64,6 +64,10 @@ module.exports = {
             template: path.join(__dirname, 'src', 'index.html'),
             filename: "index.html"
         }),
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'src', 'basket.html'),
+            filename: "basket.html"
+        }),
         new CleanWebpackPlugin(),
         new CopyPlugin({
             patterns: [
