@@ -34,31 +34,8 @@ export default class Pagination {
 
 	renderPaginationItems(currenPage, pageCount) {
 		let html = '<div class="catalog__pagination-pages">';
-		if (currenPage===pageCount)
-		{
-			for ( let i = 1; i <= pageCount; i++ ) {
-				if (i>pageCount-3||i ===1)
-					html += this.renderPaginationItem(i, +currenPage);
-				else if (i===4)
-					html += this.renderPaginationItem(i, +currenPage, true);}
-			}
-		else if (currenPage===1)
-		{
-					for ( let i = 1; i <= pageCount; i++ ) {
-						if (i<4||i ===pageCount)
-							html += this.renderPaginationItem(i, +currenPage);
-						else if (i===4)
-							html += this.renderPaginationItem(i, +currenPage, true);}}
-		else
-		{
 		for ( let i = 1; i <= pageCount; i++ ) {
-			if ((i === 1 || i === pageCount) || (i - 1 <= currenPage && i + 1 >= currenPage))
-				html += this.renderPaginationItem(i, +currenPage);
-			else if (i - 2 === currenPage)
-				html += this.renderPaginationItem(i, +currenPage, true);
-			else if (i + 2 === currenPage)
-				html += this.renderPaginationItem(i, +currenPage, true);
-		}
+			html += this.renderPaginationItem(i, +currenPage);
 		}
 		html += '</div>'
 
@@ -67,11 +44,7 @@ export default class Pagination {
 		this.el.innerHTML = html;
 	}
 
-	renderPaginationItem(page, currenPage,bool) {
-		if (bool)
-			return `<button class="catalog__pagination-page" data-page="...">
-						...
-					</button>`;
+	renderPaginationItem(page, currenPage) {
 		if ( page === currenPage ) {
 			return `<button class="catalog__pagination-page catalog__pagination-page_select" data-page="${page}">
 						${page}

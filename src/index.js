@@ -42,7 +42,7 @@ async function init() {
         })
     }
 
-    new Catalog(
+    await new Catalog(
         document.getElementById('catalog-items'),
         document.getElementById('filter-items'),
         document.getElementById('pagination'),
