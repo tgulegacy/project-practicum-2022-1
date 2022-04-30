@@ -44,6 +44,7 @@ async function init() {
 
     await new Catalog(
         document.getElementById('catalog-items'),
+        document.getElementById('basket-items'),
         document.getElementById('filter-items'),
         document.getElementById('pagination'),
     ).init()

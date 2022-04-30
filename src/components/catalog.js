@@ -4,11 +4,12 @@ import getCatalogItems from "../api/getCatalogItems";
 import Select from "./select";
 import Cookie from "../utils/cookie";
 import {encodeURL} from "@/utils/url";
-import addBasketItem from "@/api/addBasketItem";
+import {addBasketItem, clearBasketItem, deleteBasketItem, getBasketItem} from "@/api/addBasketItem";
 
 export default class Catalog {
-    constructor(el, filterEl, paginationEl) {
+    constructor(el, el1, filterEl, paginationEl) {
         this.el = el
+        this.el1 = el1
         this.filterEl = filterEl
         this.paginationEl = paginationEl
         this.elements = {
@@ -26,12 +27,17 @@ export default class Catalog {
 
     async init() {
         this.setLoading(true)
-        
+        this.basketRender()
+        const pro = document.getElementsByClassName('basket container')[0]
+        pro.style.display = 'none'
 
         try {
             this.meta.page = this.getCurrentPage()
             this.meta.sort = Cookie.getCookie('catalog-sort') || 'alp'
 
+            let basketEl = document.querySelector('#countBasket');
+            basketEl.innerHTML = (await getBasketItem()).data.items.length
+            
             this.elements.filter = await new Filter(this.filterEl, async (data) => {
                 this.meta.page = 1
                 this.meta.filters = data
@@ -84,7 +90,144 @@ export default class Catalog {
         } finally {
             this.setLoading(false)
         }
-        this.countBasketToggleListeners()
+    }
+    basketRender() {
+        
+        const a = document.querySelector('#linkas')
+        a.addEventListener('click', async () => {
+            console.log(1234)
+            const pro = document.getElementsByClassName('catalog')[0]
+            pro.style.display = 'none'
+            const pro1 = document.getElementsByClassName('basket container')[0]
+            pro1.style.display = 'block'
+            const basket = document.getElementById('show_catalog')
+            basket.addEventListener('click', () => {
+                pro.style.display = 'block'
+                pro1.style.display = 'none'
+            })
+            
+            const b = document.querySelector('#basket-clear')
+            b.addEventListener('click', async () => {
+                console.log("aaaa")
+                await clearBasketItem()
+                let basketEl = document.querySelector('#countBasket');
+                basketEl.innerHTML = (await getBasketItem()).data.items.length
+                })
+            
+
+
+
+           // result.length
+            let summ=0
+            let basketCod = '<div class="basket-noFlex">'
+            
+            const result = (await getBasketItem()).data.items
+            console.log(result.length)
+    
+           for (let item of result) {
+                console.log(item.description)
+               basketCod+=this.renderBasketItem(item)
+               summ+=item.price
+            }
+           console.log(summ)
+            
+            basketCod+=`</div>
+                    <div class="basket__items-inf">
+                    <div class="basket__items-inf3">
+                        <div class="basket__items-inf1">
+                            Информация о заказе
+                        </div>
+                        
+                    </div>
+
+
+                    <div class="basket__items-inf3">
+                        <div class="basket__items-inf1">
+                            Количество товаров:
+                        </div>
+
+                        <div class="basket__items-inf2">
+                            ${result.length}
+                        </div>
+                    </div>
+
+                    <div class="basket__items-inf3">
+                        <div class="basket__items-inf1">
+                            Стоимость:
+                        </div>
+
+                        <div class="basket__items-inf2">
+                            ${summ}
+                        </div>
+                    </div>
+
+                    <div class="basket__items-inf3">
+                        <div class="basket__items-inf1">
+                            Скидка:
+                        </div>
+
+                        <div class="basket__items-inf2">
+                             0
+                        </div>
+                    </div>
+                    
+                    <div class="basket__items-inf4">
+                        <div class="basket__items-inf1">
+                            Итого к оплате:
+                        </div>
+
+                        <div class="basket__items-inf2">
+                            ${summ}
+                        </div>
+                    </div>
+
+                    <div class="basket__items-inf3">
+                        <div class="basket__items-inf5">
+                             Оформить заказ
+                        </div>
+                        
+                    </div>
+                    
+                </div>`
+            
+            this.el1.innerHTML = basketCod
+        })
+    }
+    renderBasketItem(item){
+        return `<div class="basket__items-wrapper">
+            <div class="basket__items" id="basket-items">
+                <div class="basket-card">
+                    <div class="basket-card__inner">
+                        <div class="basket-card__inners">
+                            
+
+                            <img class="basket-card__image"
+                                 src="${item.image}"
+                                 alt="Изображение">
+                            <div class="basket-card__name">
+                                <div class="basket-card__description">
+                                    ${item.description}
+                                </div>
+                                <div class="basket-card__volume">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="basket-card__price">
+                            <span>
+                                 ${item.price}
+                            </span>
+
+                            <svg class="svg-primary" width="17" height="17">
+                                <use href="#rub"></use>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`
+        
     }
 
     async onMetaChange(isPushState = true) {
@@ -190,19 +333,17 @@ export default class Catalog {
             const inBasket = !!element.dataset.basketToggle
             
             const result = await addBasketItem(id, inBasket ? 0 : 1)
+
+            
             
             if (result.ok) {
                 console.log(result)
-                let element1 = document.querySelector('#countBasket');
-
-                element1.innerHTML = result.data.items.length
+                let basketEl = document.querySelector('#countBasket');
+                basketEl.innerHTML = (await getBasketItem()).data.items.length
                 
                 element.classList.toggle('product-card__basket_active')
                 
             }
-            
-            
-            
         })
     }
 
