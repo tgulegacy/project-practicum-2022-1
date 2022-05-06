@@ -14,7 +14,8 @@ export async function addBasketItem(id, quantity) {
     } catch (error) {
         console.error('Ошибка:', error);
     }
-}export async function getBasketItem() {
+}
+export async function getBasketItem() {
     try {
         const response = await fetch('http://localhost:5000/api/basket/', {
             method: "GET",
@@ -26,7 +27,8 @@ export async function addBasketItem(id, quantity) {
     } catch (error) {
         console.error('Ошибка:', error);
     }
-}export async function deleteBasketItem(id) {
+}
+export async function deleteBasketItem(id) {
     try {
         const response = await fetch(`http://localhost:5000/api/basket/${id}`, {
             method: "DELETE",

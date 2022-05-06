@@ -26,6 +26,7 @@ export default class Catalog {
     }
 
     async init() {
+        this.initInput()
         this.setLoading(true)
         this.basketRender()
         const pro = document.getElementsByClassName('basket container')[0]
@@ -93,6 +94,7 @@ export default class Catalog {
     }
     basketRender() {
         
+        
         const a = document.querySelector('#linkas')
         a.addEventListener('click', async () => {
             console.log(1234)
@@ -107,12 +109,23 @@ export default class Catalog {
             })
             
             const b = document.querySelector('#basket-clear')
-            b.addEventListener('click', async () => {
-                console.log("aaaa")
-                await clearBasketItem()
-                let basketEl = document.querySelector('#countBasket');
-                basketEl.innerHTML = (await getBasketItem()).data.items.length
+           b.addEventListener('click', async () => {
+              console.log("bbb")
+             await clearBasketItem()
+              let basketEl = document.querySelector('#countBasket');
+               basketEl.innerHTML = (await getBasketItem()).data.items.length
+               location.reload()
                 })
+
+
+           // console.log("cc")
+            //const c = document.querySelectorAll('.delete')
+           // c.addEventListener('click', async () => {
+           //     console.log("cccc")
+            //})
+
+           
+           
             
 
 
@@ -123,13 +136,17 @@ export default class Catalog {
             
             const result = (await getBasketItem()).data.items
             console.log(result.length)
+            const sum = (await getBasketItem()).data.sum
+            const oldSum = (await getBasketItem()).data.oldSum
     
            for (let item of result) {
                 console.log(item.description)
                basketCod+=this.renderBasketItem(item)
+               
                summ+=item.price
             }
-           console.log(summ)
+           
+           console.log(+result.oldSum)
             
             basketCod+=`</div>
                     <div class="basket__items-inf">
@@ -157,7 +174,7 @@ export default class Catalog {
                         </div>
 
                         <div class="basket__items-inf2">
-                            ${summ}
+                            ${oldSum}
                         </div>
                     </div>
 
@@ -167,7 +184,7 @@ export default class Catalog {
                         </div>
 
                         <div class="basket__items-inf2">
-                             0
+                             ${sum-oldSum}
                         </div>
                     </div>
                     
@@ -177,7 +194,7 @@ export default class Catalog {
                         </div>
 
                         <div class="basket__items-inf2">
-                            ${summ}
+                            ${sum}
                         </div>
                     </div>
 
@@ -191,10 +208,17 @@ export default class Catalog {
                 </div>`
             
             this.el1.innerHTML = basketCod
+            this.initDeleteButtons()
+            this.initPlusButtons()
+            this.initMinButtons()
+            this.initInputButtons()
+
+            
         })
     }
     renderBasketItem(item){
-        return `<div class="basket__items-wrapper">
+        if (item.oldPrice!==undefined)
+            return `<div class="basket__items-wrapper">
             <div class="basket__items" id="basket-items">
                 <div class="basket-card">
                     <div class="basket-card__inner">
@@ -209,26 +233,188 @@ export default class Catalog {
                                     ${item.description}
                                 </div>
                                 <div class="basket-card__volume">
-                                    
+                                    <button class="basket-card__min" data-item-id="${item.id}" data-item-idd="${item.count}">
+                                        -
+                                    </button>
+                                    <input class="basket-card__input" data-item-id="${item.id}" data-item-idd="${item.count}" value="${item.count}">
+                                        
+                                    </input>
+                                    <button class="basket-card__plus" data-item-id="${item.id}" data-item-idd="${item.count}">
+                                        +
+                                    </button>
                                 </div>
                             </div>
                         </div>
                         
+                        
                         <div class="basket-card__price">
-                            <span>
-                                 ${item.price}
-                            </span>
-
-                            <svg class="svg-primary" width="17" height="17">
-                                <use href="#rub"></use>
-                            </svg>
+                            <div class="basket-card__priceOld">
+                                <span>
+                                    ${item.oldPrice}
+                                </span>
+    
+                                <svg class="svg-primary" width="17" height="17">
+                                    <use href="#rub"></use>
+                                </svg>
+                            </div>
+                            <div class="basket-card__priceNew">
+                                <span>
+                                    ${item.price}
+                                </span>
+    
+                                <svg class="svg-primary" width="17" height="17">
+                                    <use href="#rub"></use>
+                                </svg>
+                            </div>
                         </div>
+                        
+                        <button class="basket-card__delete" data-item-id="${item.id}" >
+                            
+                        
+                            Удалить
+                        </button>
                     </div>
                 </div>
             </div>
         </div>`
+        else
+            return `<div class="basket__items-wrapper">
+            <div class="basket__items" id="basket-items">
+                <div class="basket-card">
+                    <div class="basket-card__inner">
+                        <div class="basket-card__inners">
+                            
+
+                            <img class="basket-card__image"
+                                 src="${item.image}"
+                                 alt="Изображение">
+                            <div class="basket-card__name">
+                                <div class="basket-card__description">
+                                    ${item.description}
+                                </div>
+                                <div class="basket-card__volume">
+                                    <button class="basket-card__min" data-item-id="${item.id}"  data-item-idd="${item.count}">
+                                        -
+                                    </button>
+                                    <input class="basket-card__input" data-item-id="${item.id}" data-item-idd="${item.count}" value="${item.count}">
+ 
+                                    </input>
+                                    <button class="basket-card__plus" data-item-id="${item.id}" data-item-idd="${item.count}">
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="basket-card__price">
+                            <div class="basket-card__priceNew">
+                                <span>
+                                    ${item.price}
+                                </span>
+    
+                                <svg class="svg-primary" width="17" height="17">
+                                    <use href="#rub"></use>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <button class="basket-card__delete" data-item-id="${item.id}">
+                            Удалить
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>`
+            
         
     }
+    initDeleteButtons(){
+        const a =[...document.getElementsByClassName('basket-card__delete')]
+        console.log(a)
+        a.forEach(box =>
+            box.addEventListener("click", async (e) => {
+                console.log("aaa")
+                const element = e.target
+                console.log(element)
+                const id = +element.dataset.itemId
+                const inBasket = !!element.dataset.basketToggle
+                console.log(id)
+
+                const result = await deleteBasketItem(id)
+                location.reload()
+                 
+
+            }))
+    }
+    initPlusButtons(){
+        const a =[...document.getElementsByClassName('basket-card__plus')]
+        console.log(a)
+        a.forEach(box =>
+            box.addEventListener("click", async (e) => {
+                console.log("aaa")
+                const element = e.target
+                console.log(element.dataset)
+                const id = +element.dataset.itemId
+                console.log(id)
+                const count = +element.dataset.itemIdd
+                console.log(count)
+                const result = await addBasketItem(id, count+1)
+                location.reload()
+            }))
+    }
+    initMinButtons(){
+        const a =[...document.getElementsByClassName('basket-card__min')]
+        console.log(a)
+        a.forEach(box =>
+            box.addEventListener("click", async (e) => {
+                console.log("aaa")
+                const element = e.target
+                console.log(element.dataset)
+                const id = +element.dataset.itemId
+                console.log(id)
+                const count = +element.dataset.itemIdd
+                console.log(count)
+                const result2 = await addBasketItem(id, count-1)
+
+                    
+                location.reload()
+            })) 
+    }
+    initInputButtons(){
+        const a =[...document.getElementsByClassName('basket-card__input')]
+        console.log(a)
+        a.forEach(box =>
+            box.addEventListener("keypress", async (e) => {
+                if (e.key === 'Enter') {
+                    console.log(box);
+
+                    const element = e.target
+                    console.log(element)
+                    const id = +element.dataset.itemId
+                    const count = +element.value
+                    console.log(+element.value)
+                    const result = await addBasketItem(id, count)
+                    location.reload()
+                }
+            }))
+    }
+    initInput(){
+        const a = document.querySelector('#input')
+        a.addEventListener("keypress", async (e) => {
+            if (e.key === 'Enter') {
+            console.log(1234)
+
+            }
+        })
+    }
+    
+
+     //function deleteItem(id){
+      //   (async ()=> await  deleteBasketItem(id))()
+       
+        
+   //}
 
     async onMetaChange(isPushState = true) {
         this.setLoading(true)
@@ -328,6 +514,7 @@ export default class Catalog {
             } else {
                 element = event.target.closest('[data-basket-toggle]')
             }
+            console.log(element)
 
             const id = +element.dataset.itemId
             const inBasket = !!element.dataset.basketToggle

@@ -2,12 +2,14 @@ import getFilterItems from "../api/getFilterItems";
 import Accordion from "./accordion";
 import {decodeURL} from "@/utils/url";
 import initRangeInput from "@/components/rangeInput";
+import getSearchItems from "../api/getSearchItems";
 
 export default class Filter {
     constructor(el, onChange) {
         this.el = el
         this.filterItems = null
         this.onChange = onChange
+       
     }
 
     async init() {
@@ -15,7 +17,21 @@ export default class Filter {
         this.data = this.getCurrentFilter()
         await this.renderItems()
         this.initListeners()
+        this.search()
     }
+     search(){
+        const a = document.querySelector('#form')
+        console.log(1)
+        a.addEventListener('submit', async event =>{
+            const element = event.target
+            const param = element.value
+            console.log(param)
+            event.preventDefault()
+            this.filterItems = await getSearchItems(param)
+            
+        })
+    }
+
 
     async renderItems() {
         const filterItems = this.filterItems
