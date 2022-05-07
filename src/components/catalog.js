@@ -20,7 +20,8 @@ export default class Catalog {
             page: null,
             filters: [],
             sort: null,
-            limit: 12
+            limit: 12,
+            q: null
         }
     }
 
@@ -29,15 +30,18 @@ export default class Catalog {
 
         try {
             this.meta.page = this.getCurrentPage()
+            this.meta.query = this.getCurrentQuery()
             this.meta.sort = Cookie.getCookie('catalog-sort') || 'alp'
 
-            this.elements.filter = await new Filter(this.filterEl, async (data) => {
-                this.meta.page = 1
-                this.meta.filters = data
-                await this.onMetaChange()
-            }, this.meta.filters)
-            await this.elements.filter.init()
-            this.meta.filters = this.elements.filter.getCurrentFilter()
+            if (this.filterEl) {
+                this.elements.filter = await new Filter(this.filterEl, async (data) => {
+                    this.meta.page = 1
+                    this.meta.filters = data
+                    await this.onMetaChange()
+                }, this.meta.filters)
+                await this.elements.filter.init()
+                this.meta.filters = this.elements.filter.getCurrentFilter()
+            }
 
             const [items, pageCount] = await getCatalogItems(this.meta)
             this.renderItems(items)
@@ -62,9 +66,13 @@ export default class Catalog {
 
             window.onpopstate = (async () => {
                 this.meta.page = this.getCurrentPage()
-                this.meta.filters = this.elements.filter.getCurrentFilter()
-
-                this.elements.filter.changeData(this.meta.filters)
+                this.meta.query = this.getCurrentQuery()
+                
+                if (this.elements.filter) {
+                    this.meta.filters = this.elements.filter.getCurrentFilter()
+                    this.elements.filter.changeData(this.meta.filters)
+                }
+                
                 this.elements.pagination.renderPaginationItems(this.meta.page, pageCount)
 
                 await this.onMetaChange(false)
@@ -110,6 +118,11 @@ export default class Catalog {
     getCurrentPage() {
         const params = new URL(window.location.href).searchParams
         return +params.get('page') || 1
+    }
+
+    getCurrentQuery() {
+        const params = new URL(window.location.href).searchParams
+        return params.get('q')
     }
 
     renderItems(items) {
