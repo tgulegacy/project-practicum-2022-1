@@ -17,20 +17,9 @@ export default class Filter {
         this.data = this.getCurrentFilter()
         await this.renderItems()
         this.initListeners()
-        this.search()
+      
     }
-     search(){
-        const a = document.querySelector('#form')
-        console.log(1)
-        a.addEventListener('submit', async event =>{
-            const element = event.target
-            const param = element.value
-            console.log(param)
-            event.preventDefault()
-            this.filterItems = await getSearchItems(param)
-            
-        })
-    }
+     
 
 
     async renderItems() {

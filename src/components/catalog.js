@@ -5,6 +5,7 @@ import Select from "./select";
 import Cookie from "../utils/cookie";
 import {encodeURL} from "@/utils/url";
 import {addBasketItem, clearBasketItem, deleteBasketItem, getBasketItem} from "@/api/addBasketItem";
+import getSearchItems from "@/api/getSearchItems";
 
 export default class Catalog {
     constructor(el, el1, filterEl, paginationEl) {
@@ -12,6 +13,7 @@ export default class Catalog {
         this.el1 = el1
         this.filterEl = filterEl
         this.paginationEl = paginationEl
+        this.searchItems = null
         this.elements = {
             filter: null,
             pagination: null,
@@ -26,6 +28,7 @@ export default class Catalog {
     }
 
     async init() {
+        this.search()
         this.initInput()
         this.setLoading(true)
         this.basketRender()
@@ -395,10 +398,33 @@ export default class Catalog {
                     const count = +element.value
                     console.log(+element.value)
                     const result = await addBasketItem(id, count)
-                    location.reload()
+                    //location.reload()
                 }
             }))
     }
+    
+    search(){
+        const a = document.querySelector('#form')
+        console.log(1)
+        a.addEventListener('submit', async event =>{
+
+            console.log(1)
+            const b = document.getElementById('input')
+            event.preventDefault()
+            this.searchItems = await getSearchItems(b.value)
+            console.log(this.searchItems)
+            await this.onMetaChange()
+            
+            //const element = event.target
+            //const param = +element.value
+            
+
+
+
+
+        })
+    }
+    
     initInput(){
         const a = document.querySelector('#input')
         a.addEventListener("keypress", async (e) => {
@@ -418,24 +444,48 @@ export default class Catalog {
 
     async onMetaChange(isPushState = true) {
         this.setLoading(true)
+        if (this.searchItems===null) {
 
-        try {
-            const [items, pageCount] = await getCatalogItems(this.meta)
+            try {
+                const [items, pageCount] = await getCatalogItems(this.meta)
 
-            this.elements.pagination.renderPaginationItems(this.meta.page, pageCount)
-            this.renderItems(items)
+                this.elements.pagination.renderPaginationItems(this.meta.page, pageCount)
+                this.renderItems(items)
 
-            if (isPushState) {
-                const encodeFilterData = encodeURL([...this.meta.filters, {
-                    code: 'page',
-                    items: [this.meta.page]
-                }])
-                history.pushState({}, '', window.location.origin + encodeFilterData)
+                if (isPushState) {
+                    const encodeFilterData = encodeURL([...this.meta.filters, {
+                        code: 'page',
+                        items: [this.meta.page]
+                    }])
+                    history.pushState({}, '', window.location.origin + encodeFilterData)
+                }
+            } catch (e) {
+                console.log(e)
+            } finally {
+                this.setLoading(false)
             }
-        } catch (e) {
-            console.log(e)
-        } finally {
-            this.setLoading(false)
+        }
+        else{
+            try {
+                let [items, pageCount] = await getCatalogItems(this.meta)
+                items=this.searchItems
+
+                this.elements.pagination.renderPaginationItems(this.meta.page, pageCount)
+                this.renderItems(items)
+
+                if (isPushState) {
+                    const encodeFilterData = encodeURL([...this.meta.filters, {
+                        code: 'page',
+                        items: [this.meta.page]
+                    }])
+                    history.pushState({}, '', window.location.origin + encodeFilterData)
+                }
+            } catch (e) {
+                console.log(e)
+            } finally {
+                this.setLoading(false)
+            }
+            
         }
     }
 
