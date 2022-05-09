@@ -14,6 +14,7 @@ if (document.readyState === 'loading') {
 
 async function init() {
     new Nav('nav');
+
     if (window.innerWidth <= 1024) {
         const mobileNav = new MobileNav(document.getElementById('nav'))
 
