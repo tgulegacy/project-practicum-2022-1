@@ -1,4 +1,4 @@
 export default {
 	page: 1,
-	limit: 12,
+	limit: 6,
 }

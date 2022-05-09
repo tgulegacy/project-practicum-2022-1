@@ -34,9 +34,22 @@ export default class Pagination {
 
 	renderPaginationItems(currenPage, pageCount) {
 		let html = '<div class="catalog__pagination-pages">';
-		for ( let i = 1; i <= pageCount; i++ ) {
-			html += this.renderPaginationItem(i, +currenPage);
+		html += this.renderPaginationItem(1, +currenPage);
+		if (currenPage > 3) {
+			html += this.renderDots();
 		}
+		for (let i=currenPage-1;i<=pageCount;i++) {
+			if (i < 2) continue;
+			html += this.renderPaginationItem(i, +currenPage)
+			if (i >= currenPage + 1 && pageCount - currenPage > 3) {
+				html += this.renderDots();
+				html += this.renderPaginationItem(+pageCount, +currenPage);
+				break;
+			}
+		}
+		
+		
+		
 		html += '</div>'
 
 		html += this.renderButtons(currenPage, pageCount)
@@ -56,6 +69,12 @@ export default class Pagination {
 		}
 	}
 
+	renderDots(){
+		return `<button class="catalog__pagination-page" data-page="...">
+								...
+					</button>`
+	}
+	
 	renderButtons(currenPage, pageCount) {
 		return `
 			<div class="catalog__pagination-by-one">
