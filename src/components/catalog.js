@@ -50,13 +50,31 @@ export default class Catalog {
             const sortEl = document.getElementById('sort')
             this.elements.sort = new Select({
                 el: sortEl,
-                onChange: (item) => {
-                    // TODO - доделать Select
+                onChange: async (item) => {
+                    this.meta.sort = item.value
+                    await this.onMetaChange()
                 },
                 cookieName: 'catalog-sort'
             })
 
-            // TODO - доделать Limit
+            const limitEl = document.getElementById('limit')
+            
+            const searchElem = document.getElementById('search-form')
+            searchElem.addEventListener('submit', async (e) => {
+                e.preventDefault()
+                
+            this.meta.limit = new Select({
+                el: limitEl,
+                onChange: async (item) => {
+                    this.meta.limit = item.name
+                    await this.onMetaChange()
+                },
+                cookieName: 'catalog-limit'
+            })
+                
+            const query = e.path[0].querySelector('[data-search-input]').value
+            window.location.href = `http://localhost:3000/search.html?q=${query}`
+            })
 
             this.elements.pagination = new Pagination(this.paginationEl, async (page) => {
                 this.meta.page = +page

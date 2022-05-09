@@ -1,8 +1,8 @@
 import './assets/style/index.scss'
-import Select from './components/select'
 import MobileNav from "@/components/mobile-nav";
 import Nav from '@/components/nav';
 import Catalog from "@/components/catalog";
+import Basket from "@/components/basket";
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
@@ -42,11 +42,18 @@ async function init() {
         })
     }
 
-    await new Catalog(
-        document.getElementById('catalog-items'),
-        document.getElementById('filter-items'),
-        document.getElementById('pagination'),
-    ).init()
-    
-    
+    const isBasket = window.location.href.includes('basket')
+
+    if (isBasket) {
+        await new Basket(
+            document.getElementById('basket-items'),
+            document.getElementById('basket-info'),
+        ).init()
+    } else {
+        await new Catalog(
+            document.getElementById('catalog-items'),
+            document.getElementById('filter-items'),
+            document.getElementById('pagination'),
+        ).init();
+    }
 }

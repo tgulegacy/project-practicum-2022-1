@@ -1,0 +1,37 @@
+.menu{
+  width: 1600px;
+  display:flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  &__section{
+    border-right: 1px solid #E9E9E9;
+  ;
+    text-align: center;
+
+    button{
+      font-weight: 500;
+      padding-right: 10px;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    &_sale{
+      button{
+        color:red;
+      }
+    }
+    &:last-child {
+      border: none;
+    }
+
+    &:nth-last-child(2) {
+      padding-right: 40px;
+    }
+  }
+}
+@media screen and (max-width: 1920px){
+  .menu{
+    display: none;
+  }
+}
