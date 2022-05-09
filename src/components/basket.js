@@ -46,7 +46,8 @@ export default class Basket {
     renderItem(item) {
         const isDiscount = item.hasOwnProperty('oldPrice')
         const itemPrice = isDiscount ?
-            `<div class="basket-card__current-price" product-price>${item.price} ₽</div>`
+            `<div class="basket-card__old-price" product-old-price>${item.oldPrice} ₽</div>
+            <div class="basket-card__current-price" product-price>${item.price} ₽</div>`
             : `<div class="basket-card__current-price" product-price>${item.price} ₽</div>`
 
         let html = `

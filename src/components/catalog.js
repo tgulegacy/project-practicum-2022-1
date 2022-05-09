@@ -58,6 +58,11 @@ export default class Catalog {
             })
 
             const limitEl = document.getElementById('limit')
+            
+            const searchElem = document.getElementById('search-form')
+            searchElem.addEventListener('submit', async (e) => {
+                e.preventDefault()
+                
             this.meta.limit = new Select({
                 el: limitEl,
                 onChange: async (item) => {
@@ -65,6 +70,10 @@ export default class Catalog {
                     await this.onMetaChange()
                 },
                 cookieName: 'catalog-limit'
+            })
+                
+            const query = e.path[0].querySelector('[data-search-input]').value
+            window.location.href = `http://localhost:3000/search.html?q=${query}`
             })
 
             this.elements.pagination = new Pagination(this.paginationEl, async (page) => {
