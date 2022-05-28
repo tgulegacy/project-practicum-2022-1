@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const { NODE_ENV, HOST, PORT } = process.env;
 const isDev = NODE_ENV === 'development';
@@ -12,11 +13,13 @@ const port = PORT || 3000;
 module.exports = {
     mode,
     entry: {
-        index: path.join(__dirname, 'src', 'index.js')
+        index: path.join(__dirname, 'src', 'index.js'),
+        search: path.join(__dirname, 'src', 'search.js'),
+        basket: path.join(__dirname, 'src', 'basket.js')
     },
     output: {
         path: isDev ? path.resolve(__dirname, 'dist') : path.resolve(__dirname, 'build'),
-        filename: "[name].[hash].js",
+        filename: "js/[name].js",
         clean: true
     },
     devServer: {
@@ -34,7 +37,12 @@ module.exports = {
             {
                 test: /\.s?([ca])ss$/,
                 use: [
-                    { loader: 'style-loader' },
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: "/",
+                        },
+                    },
                     { loader: 'css-loader' },
                     { loader: 'sass-loader' }
                 ]
@@ -60,23 +68,28 @@ module.exports = {
         ],
     },
     plugins: [
+        new MiniCssExtractPlugin({
+            filename: 'style/[name].css'
+        }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src', 'index.html'),
-            filename: "index.html"
+            filename: "index.html",
+            chunks: ['index']
         }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src', 'basket.html'),
-            filename: "basket.html"
+            filename: "basket.html",
+            chunks: ['basket']
         }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src', 'search.html'),
-            filename: "search.html"
+            filename: "search.html",
+            chunks: ['search']
         }),
         new CleanWebpackPlugin(),
         new CopyPlugin({
             patterns: [
-                { from: "server", to: "" },
-                // { from: "other", to: "public" },
+                { from: "public", to: "/" },
             ],
         }),
     ],

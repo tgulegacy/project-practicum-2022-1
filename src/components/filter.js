@@ -1,4 +1,4 @@
-import getFilterItems from "../api/getFilterItems";
+// import getFilterItems from "../api/getFilterItems";
 import Accordion from "./accordion";
 import {decodeURL} from "@/utils/url";
 import initRangeInput from "@/components/rangeInput";
@@ -7,14 +7,46 @@ export default class Filter {
     constructor(el, onChange) {
         this.el = el
         this.filterItems = null
+        this.data = null
         this.onChange = onChange
     }
 
     async init() {
-        this.filterItems = await getFilterItems()
+        this.filterItems = this.getFilterItems()
         this.data = this.getCurrentFilter()
-        await this.renderItems()
+        // await this.renderItems()
         this.initListeners()
+    }
+
+    getFilterItems() {
+        const filterItems = []
+        const items = this.el.querySelectorAll('[data-filter-el]')
+
+        items.forEach(item => {
+            const type = item.dataset.filterType
+            const code = item.dataset.filterCode
+
+            if (type === 'range') {
+                let input = item.querySelector('[data-filter-item]')
+                filterItems.push({
+                    type,
+                    code,
+                    min: input.getAttribute('min'),
+                    max: input.getAttribute('max')
+                })
+            } else if (type === 'checkbox') {
+                let items = Array.from(item.querySelectorAll('[data-filter-item]')).map(input => input.getAttribute('name'))
+                filterItems.push({
+                    type,
+                    code,
+                    items
+                })
+            }
+        })
+
+        console.log(filterItems)
+
+        return filterItems
     }
 
     async renderItems() {
@@ -90,7 +122,7 @@ export default class Filter {
         elements.forEach(element => {
             const category = element.dataset.filterCode
             const items = element.querySelectorAll('[data-filter-item]')
-            
+
             const el = data.find(el => el.code === category)
 
             if (!el) {
@@ -107,7 +139,7 @@ export default class Filter {
                 }
                 return
             }
-            
+
             items.forEach(item => {
                 const code = item.name
 
@@ -168,7 +200,7 @@ export default class Filter {
         rangeInput.style.setProperty(`--left`, left)
         rangeInput.style.setProperty(`--right`, right)
     }
-    
+
     initListeners() {
         const accordions = []
 

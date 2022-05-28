@@ -172,6 +172,159 @@
                 </div>
 
                 <div class="filters__items" id="filter-items">
+                    <div class="accordion filters__item" data-accordion="" data-filter-el="" data-filter-code="category" data-filter-type="checkbox">
+                        <div class="accordion__header" data-accordion-header="">
+                            <span class="accordion__title body-1">Категория</span>
+
+                            <svg class="accordion__icon" width="10" height="5">
+                                <use href="#arrow"></use>
+                            </svg>
+                        </div>
+
+                        <div class="accordion__inner filters__checkboxes" data-accordion-inner="">
+                            <label class="checkbox">
+                                <input class="checkbox__native" type="checkbox" name="gornie" data-filter-item="">
+                                <!--                                           ${options.isPicked ? 'checked' : ''}>-->
+
+                                <span class="checkbox__box"></span>
+
+                                <span class="checkbox__text">Горные</span>
+                            </label>
+                            <label class="checkbox">
+                                <input class="checkbox__native" type="checkbox" name="gorodskie" data-filter-item="">
+                                <!--                                           ${options.isPicked ? 'checked' : ''}>-->
+
+                                <span class="checkbox__box"></span>
+
+                                <span class="checkbox__text">Городские</span>
+                            </label>
+                            <label class="checkbox">
+                                <input class="checkbox__native" type="checkbox" name="fat" data-filter-item="">
+                                <!--                                           ${options.isPicked ? 'checked' : ''}>-->
+
+                                <span class="checkbox__box"></span>
+
+                                <span class="checkbox__text">Фэтбайки</span>
+                            </label>
+                            <label class="checkbox">
+                                <input class="checkbox__native" type="checkbox" name="dvuhpodvesnie" data-filter-item="">
+                                <!--                                           ${options.isPicked ? 'checked' : ''}>-->
+
+                                <span class="checkbox__box"></span>
+
+                                <span class="checkbox__text">Двухподвесные</span>
+                            </label>
+                            <label class="checkbox">
+                                <input class="checkbox__native" type="checkbox" name="detskie" data-filter-item="">
+                                <!--                                           ${options.isPicked ? 'checked' : ''}>-->
+
+                                <span class="checkbox__box"></span>
+
+                                <span class="checkbox__text">Детские</span>
+                            </label>
+                            <label class="checkbox">
+                                <input class="checkbox__native" type="checkbox" name="jenskie" data-filter-item="">
+                                <!--                                           ${options.isPicked ? 'checked' : ''}>-->
+
+                                <span class="checkbox__box"></span>
+
+                                <span class="checkbox__text">Женские</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="accordion filters__item" data-accordion="" data-filter-el="" data-filter-code="brand" data-filter-type="checkbox">
+                        <div class="accordion__header" data-accordion-header="">
+                            <span class="accordion__title body-1">Бренд</span>
+
+                            <svg class="accordion__icon" width="10" height="5">
+                                <use href="#arrow"></use>
+                            </svg>
+                        </div>
+
+                        <div class="accordion__inner filters__checkboxes" data-accordion-inner="">
+                            <label class="checkbox">
+                                <input class="checkbox__native" type="checkbox" name="cube" data-filter-item="">
+                                <!--                                           ${options.isPicked ? 'checked' : ''}>-->
+
+                                <span class="checkbox__box"></span>
+
+                                <span class="checkbox__text">CUBE</span>
+                            </label>
+                            <label class="checkbox">
+                                <input class="checkbox__native" type="checkbox" name="merida" data-filter-item="">
+                                <!--                                           ${options.isPicked ? 'checked' : ''}>-->
+
+                                <span class="checkbox__box"></span>
+
+                                <span class="checkbox__text">MERIDA</span>
+                            </label>
+                            <label class="checkbox">
+                                <input class="checkbox__native" type="checkbox" name="superior" data-filter-item="">
+                                <!--                                           ${options.isPicked ? 'checked' : ''}>-->
+
+                                <span class="checkbox__box"></span>
+
+                                <span class="checkbox__text">SUPERIOR</span>
+                            </label>
+                            <label class="checkbox">
+                                <input class="checkbox__native" type="checkbox" name="bergamont" data-filter-item="">
+                                <!--                                           ${options.isPicked ? 'checked' : ''}>-->
+
+                                <span class="checkbox__box"></span>
+
+                                <span class="checkbox__text">BERGAMONT</span>
+                            </label>
+                            <label class="checkbox">
+                                <input class="checkbox__native" type="checkbox" name="specialized" data-filter-item="">
+                                <!--                                           ${options.isPicked ? 'checked' : ''}>-->
+
+                                <span class="checkbox__box"></span>
+
+                                <span class="checkbox__text">SPECIALIZED</span>
+                            </label>
+                            <label class="checkbox">
+                                <input class="checkbox__native" type="checkbox" name="kona" data-filter-item="">
+                                <!--                                           ${options.isPicked ? 'checked' : ''}>-->
+
+                                <span class="checkbox__box"></span>
+
+                                <span class="checkbox__text">KONA</span>
+                            </label>
+                            <label class="checkbox">
+                                <input class="checkbox__native" type="checkbox" name="pride" data-filter-item="">
+                                <!--                                           ${options.isPicked ? 'checked' : ''}>-->
+
+                                <span class="checkbox__box"></span>
+
+                                <span class="checkbox__text">PRIDE</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="accordion filters__item" data-accordion="" data-filter-el="" data-filter-code="price" data-filter-type="range">
+                        <div class="accordion__header" data-accordion-header="">
+                            <span class="accordion__title body-1">Цена</span>
+
+                            <svg class="accordion__icon" width="10" height="5">
+                                <use href="#arrow"></use>
+                            </svg>
+                        </div>
+
+                        <div class="accordion__inner filters__checkboxes" data-accordion-inner="">
+                            <div class="range-el" style="--left: 3000; --right: 98000; --min: 3000; --max: 98000" data-range="">
+                                <div class="range-el__inputs" role="group" aria-labelledby="multi-lbl">
+                                    <input type="range" min="3000" value="${left}" max="98000" data-range-left="" data-filter-item="">
+
+                                    <input type="range" min="3000" value="${right}" max="98000" data-range-right="">
+
+                                    <div class="range-el__bg-line"></div>
+                                </div>
+                                <div class="range-el__outputs">
+                                    <output style="--c: 3000"></output>
+                                    <output style="--c: 98000"></output>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <button class="filters__btn body-2" data-filters-reset>
@@ -230,6 +383,122 @@
 
                 <div class="catalog__items-wrapper">
                     <div class="catalog__items" id="catalog-items">
+                        <div class="product-card">
+                            <div class="product-card__inner">
+                                <div class="product-card__controls">
+                                    <svg class="svg-grey" width="24" height="22">
+                                        <use href="#hearth"></use>
+                                    </svg>
+
+                                    <div class="product-card__basket ${item.inBasket ? 'product-card__basket_active' : ''}" data-basket-toggle="${item.inBasket ? '1' : ''}" data-item-id="6">
+                                        <svg class="svg-primary" width="20" height="20">
+                                            <use href="#basket"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+
+<!--                                <img class="product-card__image" src="/img/card-1.png" alt="Изображение">-->
+
+                                <div class="product-card__description">
+                                    Женский KONA                                </div>
+
+                                <div class="product-card__price">
+									<span>
+										65000									</span>
+
+                                    <svg class="svg-primary" width="17" height="17">
+                                        <use href="#rub"></use>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-card__inner">
+                                <div class="product-card__controls">
+                                    <svg class="svg-grey" width="24" height="22">
+                                        <use href="#hearth"></use>
+                                    </svg>
+
+                                    <div class="product-card__basket ${item.inBasket ? 'product-card__basket_active' : ''}" data-basket-toggle="${item.inBasket ? '1' : ''}" data-item-id="4">
+                                        <svg class="svg-primary" width="20" height="20">
+                                            <use href="#basket"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+
+<!--                                <img class="product-card__image" src="/img/card-4.png" alt="Изображение">-->
+
+                                <div class="product-card__description">
+                                    Двухподвесный BERGAMONT                                </div>
+
+                                <div class="product-card__price">
+									<span>
+										67000									</span>
+
+                                    <svg class="svg-primary" width="17" height="17">
+                                        <use href="#rub"></use>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-card__inner">
+                                <div class="product-card__controls">
+                                    <svg class="svg-grey" width="24" height="22">
+                                        <use href="#hearth"></use>
+                                    </svg>
+
+                                    <div class="product-card__basket ${item.inBasket ? 'product-card__basket_active' : ''}" data-basket-toggle="${item.inBasket ? '1' : ''}" data-item-id="9">
+                                        <svg class="svg-primary" width="20" height="20">
+                                            <use href="#basket"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+
+<!--                                <img class="product-card__image" src="/img/card-1.png" alt="Изображение">-->
+
+                                <div class="product-card__description">
+                                    Двухподвесный MERIDA                                </div>
+
+                                <div class="product-card__price">
+									<span>
+										90000									</span>
+
+                                    <svg class="svg-primary" width="17" height="17">
+                                        <use href="#rub"></use>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-card__inner">
+                                <div class="product-card__controls">
+                                    <svg class="svg-grey" width="24" height="22">
+                                        <use href="#hearth"></use>
+                                    </svg>
+
+                                    <div class="product-card__basket ${item.inBasket ? 'product-card__basket_active' : ''}" data-basket-toggle="${item.inBasket ? '1' : ''}" data-item-id="8">
+                                        <svg class="svg-primary" width="20" height="20">
+                                            <use href="#basket"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+
+<!--                                <img class="product-card__image" src="/img/card-3.png" alt="Изображение">-->
+
+                                <div class="product-card__description">
+                                    Двухподвесный CUBE                                </div>
+
+                                <div class="product-card__price">
+									<span>
+										98000									</span>
+
+                                    <svg class="svg-primary" width="17" height="17">
+                                        <use href="#rub"></use>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="catalog__loader">

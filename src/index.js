@@ -47,6 +47,4 @@ async function init() {
         document.getElementById('filter-items'),
         document.getElementById('pagination'),
     ).init()
-    
-    
 }

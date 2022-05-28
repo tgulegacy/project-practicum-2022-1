@@ -43,8 +43,8 @@ export default class Catalog {
                 this.meta.filters = this.elements.filter.getCurrentFilter()
             }
 
-            const [items, pageCount] = await getCatalogItems(this.meta)
-            this.renderItems(items)
+            // const [items, pageCount] = await getCatalogItems(this.meta)
+            // this.renderItems(items)
             this.initBasketToggleListeners()
 
             const sortEl = document.getElementById('sort')
@@ -62,18 +62,18 @@ export default class Catalog {
                 this.meta.page = +page
                 await this.onMetaChange()
             })
-            this.elements.pagination.renderPaginationItems(this.meta.page, pageCount)
+            // this.elements.pagination.renderPaginationItems(this.meta.page, pageCount)
 
             window.onpopstate = (async () => {
                 this.meta.page = this.getCurrentPage()
                 this.meta.query = this.getCurrentQuery()
-                
+
                 if (this.elements.filter) {
                     this.meta.filters = this.elements.filter.getCurrentFilter()
                     this.elements.filter.changeData(this.meta.filters)
                 }
-                
-                this.elements.pagination.renderPaginationItems(this.meta.page, pageCount)
+
+                // this.elements.pagination.renderPaginationItems(this.meta.page, pageCount)
 
                 await this.onMetaChange(false)
             })
@@ -98,7 +98,7 @@ export default class Catalog {
                     code: 'page',
                     items: [this.meta.page]
                 }])
-                history.pushState({}, '', window.location.origin + encodeFilterData)
+                history.pushState({}, '', window.location.origin + window.location.pathname + encodeFilterData)
             }
         } catch (e) {
             console.log(e)
@@ -152,7 +152,7 @@ export default class Catalog {
                 </div>
 
                 <img class="product-card__image"
-                     src="${item.image}"
+                     src="/img/${item.image}"
                      alt="Изображение">
 
                 <div class="product-card__description">
@@ -171,11 +171,11 @@ export default class Catalog {
             </div>
         </div>`
     }
-    
+
     initBasketToggleListeners() {
-        this.el.addEventListener('click', async event => {         
+        this.el.addEventListener('click', async event => {
             if (
-                !event.target.hasAttribute('data-basket-toggle') && 
+                !event.target.hasAttribute('data-basket-toggle') &&
                 !event.target.closest('[data-basket-toggle]')
             ) {
                 return
@@ -190,9 +190,9 @@ export default class Catalog {
 
             const id = +element.dataset.itemId
             const inBasket = !!element.dataset.basketToggle
-            
+
             const result = await addBasketItem(id, inBasket ? 0 : 1)
-            
+
             if (result.ok) {
                 element.classList.toggle('product-card__basket_active')
             }
