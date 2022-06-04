@@ -100,58 +100,48 @@ export default class Catalog {
         
         const a = document.querySelector('#linkas')
         a.addEventListener('click', async () => {
-            console.log(1234)
-            const pro = document.getElementsByClassName('catalog')[0]
-            pro.style.display = 'none'
-            const pro1 = document.getElementsByClassName('basket container')[0]
-            pro1.style.display = 'block'
-            const basket = document.getElementById('show_catalog')
-            basket.addEventListener('click', () => {
-                pro.style.display = 'block'
-                pro1.style.display = 'none'
-            })
-            
-            const b = document.querySelector('#basket-clear')
-           b.addEventListener('click', async () => {
-              console.log("bbb")
-             await clearBasketItem()
-              let basketEl = document.querySelector('#countBasket');
-               basketEl.innerHTML = (await getBasketItem()).data.items.length
-               location.reload()
-                })
+           await this.basketRenderNew()
+        })
+    }
+    async basketRenderNew()
+    {
+        const pro = document.getElementsByClassName('catalog')[0]
+        pro.style.display = 'none'
+        const pro1 = document.getElementsByClassName('basket container')[0]
+        pro1.style.display = 'block'
+        const basket = document.getElementById('show_catalog')
+        basket.addEventListener('click', () => {
+            pro.style.display = 'block'
+            pro1.style.display = 'none'
+        })
 
+        const b = document.querySelector('#basket-clear')
+        b.addEventListener('click', async () => {
+            console.log("bbb")
+            await clearBasketItem()
+            let basketEl = document.querySelector('#countBasket');
+            basketEl.innerHTML = (await getBasketItem()).data.items.length
+            await this.basketRenderNew()
+        })
+        
+        let summ=0
+        let basketCod = '<div class="basket-noFlex">'
 
-           // console.log("cc")
-            //const c = document.querySelectorAll('.delete')
-           // c.addEventListener('click', async () => {
-           //     console.log("cccc")
-            //})
+        const result = (await getBasketItem()).data.items
+        console.log(result.length)
+        const sum = (await getBasketItem()).data.sum
+        const oldSum = (await getBasketItem()).data.oldSum
 
-           
-           
-            
+        for (let item of result) {
+            console.log(item.description)
+            basketCod+=this.renderBasketItem(item)
 
+            summ+=item.price
+        }
 
+        console.log(+result.oldSum)
 
-           // result.length
-            let summ=0
-            let basketCod = '<div class="basket-noFlex">'
-            
-            const result = (await getBasketItem()).data.items
-            console.log(result.length)
-            const sum = (await getBasketItem()).data.sum
-            const oldSum = (await getBasketItem()).data.oldSum
-    
-           for (let item of result) {
-                console.log(item.description)
-               basketCod+=this.renderBasketItem(item)
-               
-               summ+=item.price
-            }
-           
-           console.log(+result.oldSum)
-            
-            basketCod+=`</div>
+        basketCod+=`</div>
                     <div class="basket__items-inf">
                     <div class="basket__items-inf3">
                         <div class="basket__items-inf1">
@@ -209,15 +199,12 @@ export default class Catalog {
                     </div>
                     
                 </div>`
-            
-            this.el1.innerHTML = basketCod
-            this.initDeleteButtons()
-            this.initPlusButtons()
-            this.initMinButtons()
-            this.initInputButtons()
 
-            
-        })
+        this.el1.innerHTML = basketCod
+        this.initDeleteButtons()
+        this.initPlusButtons()
+        this.initMinButtons()
+        this.initInputButtons()
     }
     renderBasketItem(item){
         if (item.oldPrice!==undefined)
@@ -345,8 +332,8 @@ export default class Catalog {
                 console.log(id)
 
                 const result = await deleteBasketItem(id)
-                location.reload()
-                 
+                //location.reload()
+                await this.basketRenderNew()
 
             }))
     }
@@ -355,15 +342,20 @@ export default class Catalog {
         console.log(a)
         a.forEach(box =>
             box.addEventListener("click", async (e) => {
-                console.log("aaa")
                 const element = e.target
-                console.log(element.dataset)
                 const id = +element.dataset.itemId
-                console.log(id)
                 const count = +element.dataset.itemIdd
-                console.log(count)
+                
                 const result = await addBasketItem(id, count+1)
-                location.reload()
+                console.log(+element.dataset.itemIdd)
+                console.log((await getBasketItem()).data)
+                //await this.init()
+               // const pro1 = document.getElementsByClassName('basket' +
+                //    ' container')[0]
+               // pro1.style.display = 'block'
+                //location.reload()
+                //this.basketRender()
+                await this.basketRenderNew()
             }))
     }
     initMinButtons(){
@@ -379,9 +371,9 @@ export default class Catalog {
                 const count = +element.dataset.itemIdd
                 console.log(count)
                 const result2 = await addBasketItem(id, count-1)
-
+                await this.basketRenderNew()
                     
-                location.reload()
+                //location.reload()
             })) 
     }
     initInputButtons(){
@@ -399,6 +391,7 @@ export default class Catalog {
                     console.log(+element.value)
                     const result = await addBasketItem(id, count)
                     //location.reload()
+                    await this.basketRenderNew()
                 }
             }))
     }
@@ -418,9 +411,6 @@ export default class Catalog {
             //const element = event.target
             //const param = +element.value
             
-
-
-
 
         })
     }
